@@ -1,4 +1,4 @@
-name: Docker CI - Microservices
+name: Docker CI - Microservices test
 
 on:
   push:
