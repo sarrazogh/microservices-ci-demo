@@ -40,11 +40,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Docker image
+      - name: Build Docker image (CI)
         run: |
           docker build \
             -t ${{ matrix.service }}:ci \
-            src/${{ matrix.service }}
+            src/${{ matrix.service }}/src
 
   push:
     needs: [detect-changes, build]
@@ -66,8 +66,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build & Push
+      - name: Build & Push Docker image
         run: |
           IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest
-          docker build -t $IMAGE src/${{ matrix.service }}
+          docker build -t $IMAGE src/${{ matrix.service }}/src
           docker push $IMAGE
+
